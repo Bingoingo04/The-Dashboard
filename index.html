@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>John Doe Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <p id="clock-time" style="font-weight: bolder">13:37</p>
+        <p id="clock-date">9 september 2025</p>
+      </div>
+      <div id="page-title" onclick="makeTitleEditable()">
+        John Doe Dashboard
+      </div>
+      <div class="dashboard">
+        <div class="box">
+          <p class="smalltitle">Snabblänkar</p>
+
+          <ul id="link-list" class="link-list">
+            <li>
+              <a href="https://www.google.se" target="_blank">Google</a
+              ><span class="remove-link" onclick="removeLink(this)"
+                ><img src="IMAGES/delete.svg" alt="" style="width: 13px"
+              /></span>
+            </li>
+            <li>
+              <a
+                href="https://qlok.notion.site/SUT24-1fd20822a43440e98c6ad62959c655ee"
+                target="_blank"
+                >Notion</a
+              ><span class="remove-link" onclick="removeLink(this)"
+                ><img src="IMAGES/delete.svg" alt="" style="width: 13px"
+              /></span>
+            </li>
+            <li>
+              <a
+                href="https://chatgpt.com/c/67e1c9cd-3440-8013-b05f-27fb84817e86"
+                target="_blank"
+                >ChatGPT</a
+              ><span class="remove-link" onclick="removeLink(this)"
+                ><img src="IMAGES/delete.svg" alt="" style="width: 13px"
+              /></span>
+            </li>
+          </ul>
+          <button class="addlink" onclick="openModal()">Lägg till länk</button>
+        </div>
+        <div class="box weather-box">
+          <p class="smalltitle">Dagens väder</p>
+          <div id="weather-info">Laddar väder...</div>
+        </div>
+        <div class="box">
+          <p class="smalltitle">Aktier</p>
+          <div id="stock-info-1" class="stock-info">Laddar aktiekurs...</div>
+          <div id="stock-info-2" class="stock-info">Laddar aktiekurs...</div>
+        </div>
+        <div class="box">
+          <p class="smalltitle">Anteckningar</p>
+          <textarea id="note-area" rows="10" cols="30"></textarea>
+        </div>
+      </div>
+      <div class="footer">
+        <button onclick="changeBackground()">Slumpa ny bakgrund</button>
+      </div>
+    </div>
+
+    <div id="linkModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Lägg till ny länk</h3>
+        <input
+          type="text"
+          id="modal-link-title"
+          placeholder="Länknamn"
+          style="margin-bottom: 5px"
+        /><br />
+        <input
+          type="text"
+          id="modal-link-url"
+          placeholder="Länkadress"
+          style="margin-bottom: 15px"
+        /><br />
+        <button onclick="addLink()">Lägg till</button>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
