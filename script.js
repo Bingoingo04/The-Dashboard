@@ -17,6 +17,8 @@ window.onload = function () {
   updateClock();
   fetchWeather();
   loadNotes();
+  loadLinks();
+  loadTitle();
 };
 
 function makeTitleEditable() {
@@ -25,7 +27,15 @@ function makeTitleEditable() {
   title.focus();
   title.addEventListener("blur", () => {
     title.contentEditable = false;
+    localStorage.setItem("pageTitle", title.textContent);
   });
+}
+
+function loadTitle() {
+  const savedTitle = localStorage.getItem("pageTitle");
+  if (savedTitle) {
+    document.getElementById("page-title").textContent = savedTitle;
+  }
 }
 
 function openModal() {
@@ -43,11 +53,17 @@ function addLink() {
     if (!linkUrl.startsWith("http://") && !linkUrl.startsWith("https://")) {
       linkUrl = "https://" + linkUrl;
     }
+
     const linkList = document.getElementById("link-list");
     const li = document.createElement("li");
-    li.innerHTML = `<a href="${linkUrl}" target="_blank">${linkTitle}</a> <span class="remove-link" onclick="removeLink(this)"><img src="IMAGES/delete.svg" alt="" style="width: 13px"
-              /></span>`;
+    li.innerHTML = `<a href="${linkUrl}" target="_blank">${linkTitle}</a>
+      <span class="remove-link" onclick="removeLink(this)">
+        <img src="IMAGES/delete.svg" alt="" style="width: 13px"/>
+      </span>`;
     linkList.appendChild(li);
+
+    saveLinks();
+
     document.getElementById("modal-link-title").value = "";
     document.getElementById("modal-link-url").value = "";
     closeModal();
@@ -56,10 +72,32 @@ function addLink() {
 
 function removeLink(element) {
   element.parentElement.remove();
+  saveLinks();
 }
 
-function removeLink(element) {
-  element.parentElement.remove();
+function saveLinks() {
+  const links = [];
+  document.querySelectorAll("#link-list li").forEach((li) => {
+    const a = li.querySelector("a");
+    links.push({ title: a.textContent, url: a.href });
+  });
+  localStorage.setItem("savedLinks", JSON.stringify(links));
+}
+
+function loadLinks() {
+  const savedLinks = JSON.parse(localStorage.getItem("savedLinks"));
+  if (savedLinks) {
+    const linkList = document.getElementById("link-list");
+    linkList.innerHTML = "";
+    savedLinks.forEach(({ title, url }) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${url}" target="_blank">${title}</a>
+        <span class="remove-link" onclick="removeLink(this)">
+          <img src="IMAGES/delete.svg" alt="" style="width: 13px"/>
+        </span>`;
+      linkList.appendChild(li);
+    });
+  }
 }
 
 function fetchWeather() {
